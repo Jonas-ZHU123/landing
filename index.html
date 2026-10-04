@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#264b3e">
+  <meta name="description" content="Borrow everyday items, rent something useful, or share what you have. All for one, one for all brings a little more sharing into everyday life.">
+  <title>All for one, one for all — Borrow & share</title>
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+  <script src="js/pages.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#/" aria-label="All for one, one for all home">
+        <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="13" width="26" height="22" rx="11" transform="rotate(-35 17 24)"/><rect x="18" y="13" width="26" height="22" rx="11" transform="rotate(-35 31 24)"/></svg>
+        <span>all for one,<br>one for all</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#/browse" data-nav="browse">Find an item</a>
+        <a href="#/share" data-nav="share">Share an item</a>
+        <a href="#/requests" data-nav="requests">Community requests</a>
+        <a href="#/feedback" data-nav="feedback">Questionnaire</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href="#/saved" title="Saved items" aria-label="Saved items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6L12 21l8.8-8.8a5.4 5.4 0 0 0 0-7.6Z"/></svg><span class="counter" id="saved-count" hidden>0</span></a>
+        <button class="button button-text sign-in-button" data-action="auth" id="auth-button">Sign in</button>
+        <button class="icon-button mobile-menu-button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav" id="menu-button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      </div>
+    </div>
+    <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="#/browse" data-nav="browse">Find an item</a><a href="#/share" data-nav="share">Share an item</a><a href="#/requests" data-nav="requests">Community requests</a><a href="#/feedback" data-nav="feedback">Questionnaire</a><a href="#/messages">Messages</a>
+    </nav>
+  </header>
+  <main id="main" tabindex="-1"></main>
+  <footer class="site-footer">
+    <div class="container footer-main">
+      <div class="footer-brand"><a class="brand" href="#/"><svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="13" width="26" height="22" rx="11" transform="rotate(-35 17 24)"/><rect x="18" y="13" width="26" height="22" rx="11" transform="rotate(-35 31 24)"/></svg><span>all for one,<br>one for all</span></a><p>A little less buying.<br>A lot more sharing.</p></div>
+      <div><h2>Make yourself at home</h2><a href="#/browse">Find an item</a><a href="#/share">Share an item</a><a href="#/requests">Community requests</a></div>
+      <div><h2>Your corner</h2><a href="#/saved">Saved items</a><a href="#/messages">Messages</a><a href="#/feedback">Questionnaire</a><a href="#/how-it-works">How borrowing works</a></div>
+      <div class="footer-contact"><h2>Join our team</h2><p>Have an idea or want to join our team?</p><p class="contact-line">Contact us: <span class="contact-address">1323584735@qq.com</span></p></div>
+    </div>
+    <div class="container footer-bottom"><span>© <span id="year">2026</span> All for one, one for all</span><span>Made for the things we can share.</span><span class="preview-label">Interactive concept preview</span></div>
+  </footer>
+  <dialog id="auth-dialog" class="modal"><button class="modal-close icon-button" data-action="close-modal" aria-label="Close sign-in dialog">×</button><div id="auth-content"></div></dialog>
+  <dialog id="request-dialog" class="modal wide-modal"><button class="modal-close icon-button" data-action="close-modal" aria-label="Close request dialog">×</button><div id="request-content"></div></dialog>
+  <dialog id="offer-dialog" class="modal"><button class="modal-close icon-button" data-action="close-modal" aria-label="Close offer dialog">×</button><div id="offer-content"></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

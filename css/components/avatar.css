@@ -1,0 +1,5 @@
+.avatar { width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#375c48;background:#dfe8d5;font-size:16px;font-weight:600;flex:none; }
+.avatar.large { width:58px;height:58px;font-size:20px; }
+.owner-row { display:flex;align-items:center;gap:12px;min-width:0; }
+.owner-row strong { font-size:16px;display:block; }
+.owner-row small { color:var(--muted);display:block;font-size:14px; }

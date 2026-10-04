@@ -1,0 +1,16 @@
+.button { display:inline-flex;justify-content:center;align-items:center;gap:10px;border:1px solid transparent;border-radius:8px;padding:13px 21px;min-height:48px;font-size:16px;line-height:1.4;font-weight:600;transition:background .18s,transform .18s;text-align:center; }
+.button:hover { transform:translateY(-1px); }
+.button-primary { background:var(--pine);color:white; }
+.button-primary:hover { background:var(--pine-dark); }
+.button-secondary { background:transparent;border-color:#aebdab;color:var(--pine); }
+.button-secondary:hover { background:var(--light); }
+.button-light { background:var(--lime);color:var(--pine-dark); }
+.button-light:hover { background:#e8f0d6; }
+.button-text { padding:10px 8px;background:transparent;color:var(--pine); }
+.button-full { width:100%; }
+.button:disabled { opacity:.5;cursor:not-allowed;transform:none; }
+.icon-button { display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:none;border:0;border-radius:50%;color:var(--pine);position:relative;flex:none; }
+.icon-button:hover { background:var(--light); }
+.favorite-button { position:absolute;right:16px;top:16px;background:#ffffffef;box-shadow:0 2px 5px #253b3208;width:40px;height:40px;z-index:2; }
+.favorite-button[aria-pressed="true"] { color:var(--orange); }
+.favorite-button[aria-pressed="true"] svg { fill:#b967481c;stroke:var(--orange); }

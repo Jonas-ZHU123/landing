@@ -1,0 +1,53 @@
+@import url('components/container.css');
+@import url('components/button.css');
+@import url('components/avatar.css');
+@import url('components/navigation.css');
+@import url('components/banner.css');
+@import url('components/card.css');
+@import url('components/forms.css');
+@import url('components/pages.css');
+
+:root { --paper:#f8f8f2;--white:#fff;--pine:#264b3e;--pine-dark:#183c30;--ink:#253b32;--muted:#627169;--line:#dce2d5;--lime:#dbe7c4;--light:#edf1e5;--orange:#b96748;--serif:Georgia,'Times New Roman',serif;--sans:Inter,'Segoe UI',Arial,sans-serif; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth;scroll-padding-top:110px; }
+body { margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased; }
+body:has(dialog[open]) { overflow:hidden; }
+button,input,select,textarea { font:inherit; }
+button,a { -webkit-tap-highlight-color:transparent; }
+button { cursor:pointer; }
+a { color:inherit;text-decoration:none; }
+img { max-width:100%;display:block; }
+h1,h2,h3,p { margin-top:0; }
+h1,h2,h3 { line-height:1.2;text-wrap:balance;overflow-wrap:break-word; }
+::selection { background:var(--lime);color:var(--pine-dark); }
+:focus-visible { outline:3px solid var(--orange);outline-offset:4px; }
+[hidden] { display:none!important; }
+svg.icon,.icon-button svg { width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none; }
+.eyebrow { font-size:14px;letter-spacing:.11em;text-transform:uppercase;font-weight:650;color:var(--pine);margin-bottom:18px;line-height:1.5; }
+.muted { color:var(--muted); }
+.serif { font-family:var(--serif);font-weight:400; }
+.section { padding:64px 0; }
+.section-heading { display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:30px; }
+.section-heading h2 { font-family:var(--serif);font-weight:400;font-size:40px;letter-spacing:-.8px;margin:0 0 12px; }
+.section-heading p { color:var(--muted);margin:0; }
+.text-link { font-size:16px;font-weight:600;border-bottom:1px solid currentColor;padding-bottom:3px; }
+.skip-link { position:fixed;top:-100px;left:20px;padding:12px 20px;background:var(--pine);color:white;z-index:100; }
+.skip-link:focus { top:10px; }
+.site-footer { background:var(--pine-dark);color:#edf2e7;padding:54px 0 26px; }
+.footer-main { display:grid;grid-template-columns:1fr 1fr 1fr 1.25fr;gap:32px;padding-bottom:42px; }
+.footer-main > div { min-width:0; }
+.site-footer .brand { color:white;margin-bottom:20px; }
+.site-footer .brand-mark { stroke:#dbe7c4; }
+.site-footer p { font-size:16px;color:#c5d4c9;line-height:1.7; }
+.site-footer h2 { font-size:17px;font-weight:600;margin:4px 0 20px;line-height:1.4;text-wrap:initial; }
+.site-footer .footer-main > div > a:not(.brand) { display:block;font-size:16px;margin:10px 0;color:#d7e2d9; }
+.site-footer a:hover { color:white;text-decoration:underline; }
+.site-footer .contact-line { color:var(--lime);font-size:16px;line-height:1.8;margin-top:20px; }
+.contact-address { display:inline-block;white-space:nowrap;user-select:all; }
+.footer-bottom { border-top:1px solid #3b594c;padding-top:24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;font-size:14px;color:#c5d4c9; }
+.preview-label { border:1px solid #668071;padding:3px 10px;border-radius:20px; }
+.toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--pine-dark);color:white;padding:14px 22px;border-radius:10px;box-shadow:0 8px 32px #13271e30;z-index:90;max-width:calc(100% - 32px);text-align:center;font-size:16px; }
+@media(max-width:1050px) { .footer-main{grid-template-columns:1fr 1fr;gap:32px 50px} }
+@media(max-width:800px) { .section{padding:42px 0}.section-heading{align-items:flex-start}.section-heading h2{font-size:32px}.footer-bottom{justify-content:flex-start}.footer-bottom > span:nth-child(2){display:none} }
+@media(max-width:480px) { body{font-size:17px}.eyebrow{font-size:13px}.section-heading{flex-wrap:wrap;gap:12px}.section-heading h2{font-size:30px}.footer-main{column-gap:24px}.footer-brand,.footer-contact{grid-column:1/-1}.site-footer{padding-top:38px}.footer-bottom{font-size:13px} }
+@media(prefers-reduced-motion:reduce) { html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important} }
