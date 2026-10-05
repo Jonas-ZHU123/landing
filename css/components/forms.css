@@ -32,6 +32,8 @@
 .upload-field label { display:block;font-size:16px;font-weight:600;margin-bottom:8px; }
 .upload-field > div { flex:1;min-width:0; }
 .upload-field input { font-size:14px;max-width:100%; }
+.photo-picker { display:flex;align-items:center;gap:12px;flex-wrap:wrap; }
+.photo-filename { font-size:15px;color:var(--muted);overflow-wrap:anywhere;min-width:0; }
 .upload-field small { display:block;color:var(--muted);font-size:14px;margin-top:7px; }
 .image-upload-preview { width:90px;height:70px;object-fit:cover;border-radius:6px; }
 .form-actions { display:flex;gap:15px;align-items:center;flex-wrap:wrap; }
