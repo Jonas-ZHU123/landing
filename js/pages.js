@@ -1,16 +1,10 @@
 'use strict';
+
 let browseFilters = {q:'',category:'all',mode:'all',sort:'recommended'};
-function createSurveyState() { return {step:-1,answers:['','','',[],''],complete:false}; }
-const surveySessions = {home:createSurveyState(),feedback:createSurveyState()};
-let activeSurvey = 'home';
 let uploadPhoto = '';
-const SURVEY_QUESTIONS = [
-  {text:'What’s your occupation?',type:'text',optional:true,hint:'A short description is enough.',placeholder:'For example, teacher, designer, or student'},
-  {text:'What email address can we use to contact you about the project?',type:'email',optional:true,hint:'Leave this blank if you prefer not to be contacted.',placeholder:'you@example.com'},
-  {text:'How would you like to use the platform?',type:'radio',options:['Borrow or rent items','Share or rent out my items','Both','I’m just exploring']},
-  {text:'What would motivate you to use the platform?',type:'checkbox',hint:'Choose all that apply.',options:['Save money','Use something without buying it','Make better use of items I own','Reduce waste','Connect with other people','Other']},
-  {text:'What would make this platform more useful or trustworthy for you?',type:'textarea',optional:true,hint:'Share any suggestions, concerns, or features you would like to see.',placeholder:'Your thoughts and ideas…'}
-];
+const QUESTIONNAIRE_ID = 'jfBmXm0b';
+const QUESTIONNAIRE_URL = 'https://form.typeform.com/to/' + QUESTIONNAIRE_ID;
+let questionnaireLibrary;
 
 function categoryOptions(selected) { return CATEGORIES.map(c=>`<option value="${c.id}" ${c.id===selected?'selected':''}>${c.name}</option>`).join(''); }
 function pageIntro(eyebrow,title,description,action='') { return `<section class="page-intro"><div class="container page-intro-row"><div><p class="eyebrow">${eyebrow}</p><h1>${title}</h1><p>${description}</p></div>${action}</div></section>`; }
@@ -75,27 +69,52 @@ views.messages = current => {
 };
 
 views['how-it-works'] = () => `${pageIntro('Borrow. Share. Repeat.','Good things are better shared.','A simple way to use what you need, and make more of what you own.')}<section class="section share-band"><div class="container share-band-grid"><div><h2>Find it.<br>Make a plan.<br>Give it another turn.</h2><p>Choose a free borrow or a paid rental. Agree on the details with the owner, and return the item after you’ve used it.</p><a class="button button-primary" href="#/browse">Find an item</a></div><div class="steps"><div class="step"><span class="step-number">01</span><div><h3>Explore useful things</h3><p>Search by name or category. Use the free and paid filters to find what suits you.</p></div></div><div class="step"><span class="step-number">02</span><div><h3>Talk to the owner</h3><p>Check the item details, suggest dates, and agree on a pickup and return point.</p></div></div><div class="step"><span class="step-number">03</span><div><h3>Look after it</h3><p>Use the item with care and return it as agreed, ready for someone else.</p></div></div></div></div></section><section class="section"><div class="container"><div class="section-heading"><div><p class="eyebrow">A few things you might wonder</p><h2>Sharing, made clearer.</h2></div></div><div class="faq-list"><details><summary>Can I borrow something for free?</summary><p>Yes. Owners choose whether an item is free to borrow or available for a paid rental. Every listing shows the arrangement clearly.</p></details><details><summary>Can I both borrow and share items?</summary><p>Absolutely. You can explore the listings and share your own things with the same profile.</p></details><details><summary>What if I can’t find what I need?</summary><p>Post a community request. Describe the item, add example dates, and let someone offer a suitable item.</p></details><details><summary>How do pickup and return work?</summary><p>You and the owner agree on the details in the conversation. This preview uses example dates and places so you can explore the flow.</p></details><details><summary>What can I try in this preview?</summary><p>You can save items, create demo listings and requests, offer an item, and try a conversation. These changes stay in your browser. Accounts, payments and real messages are not connected.</p></details></div></div></section>`;
-function questionnaireSection(sessionName) {
-  activeSurvey=sessionName;
-  if(sessionName==='home')surveySessions.home=createSurveyState();
+function questionnaireSection() {
   return `<section class="questionnaire-section" aria-labelledby="questionnaire-heading"><div class="container home-survey-layout">
     <div class="questionnaire-intro"><p class="eyebrow">Community questionnaire</p><h2 id="questionnaire-heading">Help shape our community.</h2><p>What would you borrow? What could make sharing easier? Your ideas can help shape what comes next.</p></div>
-    <div class="questionnaire-form"><div class="survey-wrap" id="survey-content">${surveyHTML()}</div></div>
+    <div class="questionnaire-form"><div class="questionnaire-embed" id="questionnaire-embed" aria-label="Community questionnaire"></div><p class="questionnaire-fallback" id="questionnaire-fallback">Loading questionnaire… <a href="${QUESTIONNAIRE_URL}" target="_blank" rel="noopener">Open questionnaire</a></p></div>
   </div></section>`;
 }
-views.feedback = () => questionnaireSection('feedback');
-function surveyHTML() {
-  const session=surveySessions[activeSurvey];
-  if(session.complete)return `<div class="survey-welcome">${icon('check')}<p class="eyebrow">That’s the whole preview.</p><h2>Thanks for sharing your thoughts.</h2><p>You’ve reached the end of the demo questionnaire. Your answers haven’t been sent.</p><a class="button button-primary" href="#/browse">Keep exploring</a><br><button class="button button-text" data-action="survey-restart">Try the questionnaire again</button></div>`;
-  if(session.step<0)return `<div class="survey-welcome"><h2>Tell us what you think.</h2><p>A few questions about what you need, what you would share, and what could be better.</p><button class="button button-primary" data-action="survey-start">Start</button><p class="form-note">5 questions · About 2 minutes</p></div>`;
-  const q=SURVEY_QUESTIONS[session.step];const answer=session.answers[session.step];
-  let field='';
-  if(q.type==='text'||q.type==='email')field=`<input class="input" id="survey-answer" name="answer" type="${q.type}" placeholder="${q.placeholder}" value="${esc(answer)}" maxlength="150" aria-label="${esc(q.text)}">`;
-  if(q.type==='textarea')field=`<textarea class="input" id="survey-answer" name="answer" rows="4" placeholder="${q.placeholder}" maxlength="1500" aria-label="${esc(q.text)}">${esc(answer)}</textarea>`;
-  if(q.options)field=q.options.map((option,i)=>`<label class="survey-option"><input type="${q.type}" name="answer" value="${esc(option)}" ${Array.isArray(answer)?answer.includes(option)?'checked':'':answer===option?'checked':''}>${option}</label>`).join('');
-  return `<div class="survey-topline"><span>Question ${session.step+1} of 5</span><span>${q.optional?'Optional':'Required'}</span></div><form id="survey-form" data-session="${activeSurvey}" data-step="${session.step}"><h2 id="survey-question">${q.text}</h2>${q.hint?`<p>${q.hint}</p>`:''}<div class="field" role="group" aria-labelledby="survey-question">${field}</div><p class="form-error" id="survey-error" role="alert" hidden></p><div class="survey-progress" aria-hidden="true"><span style="width:${(session.step+1)*20}%"></span></div><div class="survey-actions"><button class="button button-text" type="button" data-action="survey-back">Back</button><button class="button button-primary" type="submit">${session.step===4?'Finish preview':q.optional?'Continue / skip':'Continue'}</button></div></form>`;
+views.feedback = () => questionnaireSection();
+
+function loadQuestionnaireLibrary() {
+  if(window.tf?.createWidget)return Promise.resolve(window.tf);
+  if(questionnaireLibrary)return questionnaireLibrary;
+  questionnaireLibrary=new Promise((resolve,reject)=>{
+    const style=document.createElement('link');
+    style.rel='stylesheet';
+    style.href='https://embed.typeform.com/next/css/widget.css';
+    document.head.append(style);
+    const script=document.createElement('script');
+    script.src='https://embed.typeform.com/next/embed.js';
+    script.onload=()=>window.tf?.createWidget?resolve(window.tf):reject(new Error('Questionnaire unavailable'));
+    script.onerror=()=>reject(new Error('Questionnaire unavailable'));
+    document.head.append(script);
+  });
+  return questionnaireLibrary;
 }
-function updateSurvey() { const content=document.getElementById('survey-content');content.innerHTML=surveyHTML();content.querySelector('input,textarea,button,a')?.focus({preventScroll:true});content.scrollIntoView({block:'start',behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); }
+
+function mountQuestionnaire() {
+  const container=document.getElementById('questionnaire-embed');
+  const fallback=document.getElementById('questionnaire-fallback');
+  if(!container)return;
+  loadQuestionnaireLibrary().then(library=>{
+    if(!container.isConnected)return;
+    library.createWidget(QUESTIONNAIRE_ID,{
+      container,
+      height:600,
+      inlineOnMobile:true,
+      keepSession:false,
+      autoFocus:false,
+      iframeProps:{title:'Community questionnaire'},
+      onReady:()=>{if(fallback.isConnected)fallback.hidden=true;}
+    });
+  }).catch(()=>{
+    if(!container.isConnected)return;
+    container.hidden=true;
+    fallback.innerHTML=`The questionnaire could not load here. <a href="${QUESTIONNAIRE_URL}" target="_blank" rel="noopener">Open questionnaire</a>`;
+  });
+}
 
 function openAuth(tab='signin') {
   currentAuthTab=tab;
@@ -140,21 +159,11 @@ document.addEventListener('click',event=>{
   if(action==='auth')openAuth();
   if(action==='auth-tab')openAuth(button.dataset.tab);
   if(action==='signout'){state.user=null;saveState();document.getElementById('auth-dialog').close();showToast('Signed out of the demo profile.');}
-  if(action==='reset-preview'){state={saved:[],items:[],requests:[],offers:[],messages:{},user:null};surveySessions.home=createSurveyState();surveySessions.feedback=createSurveyState();saveState();document.getElementById('auth-dialog').close();navigate('');showToast('A fresh preview, ready to explore.');}
+  if(action==='reset-preview'){state={saved:[],items:[],requests:[],offers:[],messages:{},user:null};saveState();document.getElementById('auth-dialog').close();navigate('');showToast('A fresh preview, ready to explore.');}
   if(action==='demo-login'){state.user={name:'Alex'};saveState();document.getElementById('auth-dialog').close();showToast('Welcome, Alex. You’re exploring with a demo profile.');}
   if(action==='new-request')openRequest();
   if(action==='offer')openOffer(button.dataset.id);
-  if(action==='survey-start'){surveySessions[activeSurvey].step=0;updateSurvey();}
-  if(action==='survey-back'){captureSurvey(document.getElementById('survey-form'));surveySessions[activeSurvey].step--;updateSurvey();}
-  if(action==='survey-restart'){surveySessions[activeSurvey]=createSurveyState();updateSurvey();}
 });
-function captureSurvey(form) {
-  if(!form)return;
-  const session=surveySessions[form.dataset.session];const step=Number(form.dataset.step);
-  if(!session||session.complete||step!==session.step||!SURVEY_QUESTIONS[step])return;
-  const data=new FormData(form);
-  session.answers[step]=SURVEY_QUESTIONS[step].type==='checkbox'?data.getAll('answer'):(data.get('answer')||'');
-}
 document.addEventListener('submit',event=>{
   const form=event.target;
   if(form.id==='auth-form'){event.preventDefault();const data=new FormData(form);state.user={name:currentAuthTab==='signup'?data.get('name').trim():'Alex'};saveState();form.reset();document.getElementById('auth-dialog').close();showToast(`Welcome, ${state.user.name}. This is your demo profile.`);}
@@ -168,5 +177,4 @@ document.addEventListener('submit',event=>{
   if(form.id==='message-form'){
     event.preventDefault();const text=new FormData(form).get('message').trim();if(!text)return;const key=form.dataset.key;state.messages[key]=[...(state.messages[key]||[]),{mine:true,text},{mine:false,text:'That sounds good! We can use the example dates and pickup point shown here. This is an automated demo reply.'}];state.rentalDraft=null;saveState();render();const list=document.getElementById('chat-messages');list.scrollTop=list.scrollHeight;document.getElementById('message-input').focus({preventScroll:true});
   }
-  if(form.id==='survey-form'){event.preventDefault();captureSurvey(form);const session=surveySessions[activeSurvey];const q=SURVEY_QUESTIONS[session.step];const answer=session.answers[session.step];if(!q.optional&&(!answer||Array.isArray(answer)&&!answer.length)){const error=document.getElementById('survey-error');error.textContent='Choose at least one answer to continue.';error.hidden=false;return;}if(session.step===4)session.complete=true;else session.step++;updateSurvey();}
 });
