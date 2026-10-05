@@ -91,11 +91,11 @@ function route() {
   const raw=location.hash.replace(/^#\/?/,''); const [path,search='']=raw.split('?'); const parts=path.split('/').filter(Boolean); return {name:parts[0]||'home',id:parts[1],params:new URLSearchParams(search)};
 }
 function render() {
-  captureSurvey(document.getElementById('survey-form'));
   const current=route();
   document.querySelectorAll('[data-nav]').forEach(a=>{a.classList.toggle('active',a.dataset.nav===current.name);if(a.dataset.nav===current.name)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
   document.getElementById('mobile-nav').hidden=true;document.getElementById('mobile-nav').classList.remove('is-open');document.getElementById('menu-button').setAttribute('aria-expanded','false');
   document.getElementById('main').innerHTML=(views[current.name] || views.home)(current);
+  mountQuestionnaire();
   document.title=`${({home:'Borrow & share',browse:'Find an item',saved:'Saved items',share:'Share an item',requests:'Community requests',messages:'Messages',feedback:'Questionnaire',item:getItem(current.id)?.title,'how-it-works':'How it works'})[current.name] || 'Borrow & share'} — All for one, one for all`;
   updateHeader();
 }
@@ -132,7 +132,7 @@ views.home = () => `
       </div>
     </div>
   </section>
-  ${questionnaireSection('home')}`;
+  ${questionnaireSection()}`;
 
 document.addEventListener('click',event=>{
   const button=event.target.closest('[data-action]');if(!button)return;
